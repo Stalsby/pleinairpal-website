@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plein Air Pal — The World is Your Studio</title>
+<meta name="description" content="Map your plein air paintings, connect with fellow artists, and discover beautiful locations where art meets nature.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #758C4A;
+    --green-dark: #5a6d38;
+    --green-light: #f0f4e8;
+    --black: #0A0A0A;
+    --gray-700: #333333;
+    --gray-500: #666666;
+    --gray-300: #BBBBBB;
+    --gray-100: #F5F5F5;
+    --gray-50: #FAFAFA;
+    --white: #FFFFFF;
+    --border: #E8E8E8;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--black); overflow-x: hidden; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 68px; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+  .nav-logo { text-decoration: none; display: flex; align-items: center; }
+  .nav-logo img { height: 30px; width: auto; display: block; background: transparent; }
+  .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+  .nav-links a { text-decoration: none; font-size: 14px; font-weight: 500; color: var(--gray-500); transition: color 0.2s; }
+  .nav-links a:hover { color: var(--black); }
+  .nav-cta { background: var(--black) !important; color: var(--white) !important; padding: 9px 20px !important; border-radius: 8px !important; font-size: 13px !important; font-weight: 600 !important; }
+  .nav-cta:hover { background: var(--gray-700) !important; color: var(--white) !important; }
+
+  .hero { min-height: 100vh; padding: 140px 48px 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--green-light); color: var(--green-dark); font-size: 11px; font-weight: 600; padding: 5px 14px; border-radius: 100px; margin-bottom: 32px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .hero-badge-dot { width: 5px; height: 5px; background: var(--green); border-radius: 50%; animation: pulse 2s ease infinite; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(60px, 10vw, 104px); font-weight: 700; line-height: 1.0; color: var(--black); letter-spacing: -0.025em; margin-bottom: 12px; max-width: 860px; }
+  .hero-title em { font-style: italic; color: var(--green); }
+  .hero-subtitle { font-family: 'Cormorant Garamond', serif; font-size: clamp(20px, 3vw, 30px); font-weight: 600; font-style: italic; color: var(--gray-500); margin-bottom: 24px; }
+  .hero-desc { font-size: 17px; color: var(--gray-500); line-height: 1.7; max-width: 500px; margin: 0 auto 52px; }
+  .hero-actions { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--black); color: var(--white); text-decoration: none; padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 600; transition: all 0.2s; }
+  .btn-primary:hover { background: var(--gray-700); transform: translateY(-1px); }
+  .btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: var(--white); color: var(--black); text-decoration: none; padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 500; border: 1.5px solid var(--border); transition: all 0.2s; }
+  .btn-secondary:hover { border-color: var(--black); transform: translateY(-1px); }
+
+  .map-preview { padding: 0 48px 120px; }
+  .map-frame { max-width: 1000px; margin: 0 auto; aspect-ratio: 16/9; background: var(--gray-100); border-radius: 20px; border: 1px solid var(--border); overflow: hidden; position: relative; }
+  .map-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #e8f0d8 0%, #f0ede4 50%, #e8e4d8 100%); position: relative; overflow: hidden; }
+  .map-grid { position: absolute; inset: 0; opacity: 0.2; background-image: linear-gradient(rgba(117,140,74,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(117,140,74,0.4) 1px, transparent 1px); background-size: 48px 48px; }
+  .map-filter-bar { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); background: var(--white); border-radius: 100px; padding: 8px 16px; display: flex; gap: 4px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); white-space: nowrap; }
+  .map-chip { padding: 5px 14px; border-radius: 100px; font-size: 12px; font-weight: 600; color: var(--gray-500); font-family: 'Inter', sans-serif; }
+  .map-chip.active { background: var(--green); color: var(--white); }
+  .map-pin { position: absolute; display: flex; flex-direction: column; align-items: center; animation: pinBounce 3s ease infinite; }
+  .map-pin-circle { width: 50px; height: 50px; border-radius: 50%; border: 3px solid var(--white); box-shadow: 0 4px 16px rgba(0,0,0,0.18); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+  .map-pin-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; border: 2px solid var(--white); margin-top: -2px; }
+  .map-card { position: absolute; bottom: 24px; left: 24px; background: var(--white); border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.12); min-width: 210px; }
+  .map-card-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--green-light); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .map-card-title { font-size: 12px; font-weight: 600; color: var(--black); font-family: 'Inter', sans-serif; margin-bottom: 2px; }
+  .map-card-meta { font-size: 11px; color: var(--gray-500); font-family: 'Inter', sans-serif; }
+  .pin-live { width: 14px; height: 14px; background: #E91E8C; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 0 4px rgba(233,30,140,0.15); position: absolute; }
+
+  .mission { background: var(--gray-50); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 80px 48px; text-align: center; }
+  .mission-inner { max-width: 700px; margin: 0 auto; }
+  .mission-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 600; font-style: italic; color: var(--black); line-height: 1.25; margin-bottom: 20px; }
+  .mission-sub { font-size: 15px; color: var(--gray-500); }
+
+  section { padding: 100px 48px; }
+  .section-label { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 16px; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 5vw, 56px); font-weight: 700; color: var(--black); line-height: 1.05; letter-spacing: -0.02em; }
+  .section-title em { font-style: italic; color: var(--green); }
+  .section-desc { font-size: 16px; color: var(--gray-500); line-height: 1.7; max-width: 520px; margin-top: 16px; }
+
+  .features { background: var(--white); }
+  .features-inner { max-width: 1100px; margin: 0 auto; }
+  .features-header { text-align: center; margin-bottom: 64px; }
+  .features-header .section-desc { margin: 16px auto 0; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+  .feature-card { background: var(--white); padding: 36px 32px; transition: background 0.2s; }
+  .feature-card:hover { background: var(--gray-50); }
+  .feature-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 20px; background: var(--gray-100); }
+  .feature-title { font-size: 17px; font-weight: 600; color: var(--black); margin-bottom: 10px; letter-spacing: -0.02em; }
+  .feature-desc { font-size: 14px; color: var(--gray-500); line-height: 1.65; }
+
+  .video-section { background: var(--gray-50); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .video-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .video-desc { font-size: 16px; color: var(--gray-500); line-height: 1.7; margin-top: 16px; }
+  .phone-wrap { display: flex; justify-content: center; }
+  .phone-outer { width: 240px; background: var(--black); border-radius: 40px; padding: 10px; box-shadow: 0 40px 80px rgba(0,0,0,0.2); }
+  .phone-inner { background: var(--gray-100); border-radius: 32px; overflow: hidden; aspect-ratio: 9/19.5; display: flex; flex-direction: column; }
+  .phone-notch { width: 70px; height: 18px; background: var(--black); border-radius: 0 0 12px 12px; margin: 0 auto; }
+  .phone-screen-content { flex: 1; background: linear-gradient(135deg, #e8f0d8, #f0ede4); position: relative; overflow: hidden; }
+  .phone-map-grid { position: absolute; inset: 0; opacity: 0.2; background-image: linear-gradient(rgba(117,140,74,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(117,140,74,0.5) 1px, transparent 1px); background-size: 24px 24px; }
+  .phone-pin { width: 36px; height: 36px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; font-size: 16px; position: absolute; }
+  .phone-video-label { position: absolute; bottom: 12px; left: 12px; right: 12px; background: var(--white); border-radius: 10px; padding: 8px 10px; font-size: 10px; font-weight: 600; color: var(--gray-500); font-family: 'Inter', sans-serif; text-align: center; }
+
+  .how { background: var(--white); }
+  .how-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: start; }
+  .how-steps { display: flex; flex-direction: column; gap: 0; margin-top: 48px; }
+  .how-step { display: flex; gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--border); }
+  .how-step:first-child { padding-top: 0; }
+  .how-step:last-child { border-bottom: none; }
+  .step-num { font-family: 'Cormorant Garamond', serif; font-size: 13px; font-weight: 600; color: var(--green); min-width: 24px; padding-top: 3px; letter-spacing: 0.05em; }
+  .step-title { font-size: 16px; font-weight: 600; color: var(--black); margin-bottom: 6px; }
+  .step-desc { font-size: 14px; color: var(--gray-500); line-height: 1.65; }
+  .how-visual { position: sticky; top: 100px; }
+  .how-phone-wrap { display: flex; justify-content: center; }
+  .how-phone { width: 260px; background: var(--black); border-radius: 44px; padding: 10px; box-shadow: 0 40px 80px rgba(0,0,0,0.15); }
+  .how-phone-screen { background: var(--white); border-radius: 36px; overflow: hidden; aspect-ratio: 9/19.5; }
+  .how-phone-notch { width: 70px; height: 18px; background: var(--black); border-radius: 0 0 12px 12px; margin: 0 auto; }
+  .how-phone-feed { padding: 12px; background: var(--gray-50); display: flex; flex-direction: column; gap: 8px; }
+  .feed-card { background: var(--white); border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+  .feed-card-img { width: 100%; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+  .feed-card-body { padding: 8px 10px 10px; }
+  .feed-card-title { font-size: 11px; font-weight: 600; color: var(--black); font-family: 'Inter', sans-serif; margin-bottom: 2px; }
+  .feed-card-meta { font-size: 10px; color: var(--gray-500); font-family: 'Inter', sans-serif; }
+
+  .community-section { background: var(--black); }
+  .community-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+  .community-section .section-label { color: var(--green); }
+  .community-section .section-title { color: var(--white); }
+  .community-section .section-desc { color: rgba(255,255,255,0.45); margin: 16px auto 64px; }
+  .community-pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; }
+  .community-pillar { padding: 48px 32px; background: rgba(255,255,255,0.02); text-align: center; }
+  .pillar-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+  .pillar-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 10px; letter-spacing: -0.01em; }
+  .pillar-desc { font-size: 14px; color: rgba(255,255,255,0.4); line-height: 1.6; }
+
+  .cta { background: var(--white); text-align: center; border-top: 1px solid var(--border); }
+  .cta-inner { max-width: 600px; margin: 0 auto; }
+  .cta-desc { font-size: 17px; color: var(--gray-500); line-height: 1.7; margin: 16px auto 40px; }
+  .store-buttons { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+  .store-btn { display: inline-flex; align-items: center; gap: 12px; padding: 13px 24px; border-radius: 12px; background: var(--black); color: var(--white); text-decoration: none; transition: all 0.2s; }
+  .store-btn:hover { background: var(--gray-700); transform: translateY(-1px); }
+  .store-btn svg { width: 22px; height: 22px; fill: var(--white); flex-shrink: 0; }
+  .store-btn-text { text-align: left; }
+  .store-btn-sub { font-size: 10px; opacity: 0.6; font-weight: 400; display: block; }
+  .store-btn-name { font-size: 15px; font-weight: 600; display: block; }
+  .cta-brand { margin-top: 32px; padding-top: 32px; border-top: 1px solid var(--border); }
+  .cta-brand img { height: 28px; width: auto; background: transparent; }
+  .cta-note { font-size: 13px; color: var(--gray-300); margin-top: 12px; }
+  .cta-note a { color: var(--green); text-decoration: none; font-weight: 500; }
+
+  footer { background: var(--gray-50); border-top: 1px solid var(--border); padding: 56px 48px 40px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .footer-logo img { height: 26px; width: auto; background: transparent; }
+  .footer-tagline { font-size: 13px; color: var(--gray-500); margin-top: 10px; font-style: italic; }
+  .footer-links { display: flex; gap: 56px; flex-wrap: wrap; }
+  .footer-col h4 { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-300); margin-bottom: 16px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col a { font-size: 14px; color: var(--gray-500); text-decoration: none; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--black); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 32px; flex-wrap: wrap; gap: 16px; }
+  .footer-copy { font-size: 13px; color: var(--gray-300); }
+  .footer-legal { display: flex; gap: 24px; }
+  .footer-legal a { font-size: 13px; color: var(--gray-300); text-decoration: none; transition: color 0.2s; }
+  .footer-legal a:hover { color: var(--black); }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  @keyframes pinBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 120px 24px 80px; }
+    section { padding: 72px 24px; }
+    .map-preview { padding: 0 24px 72px; }
+    .video-inner, .how-inner { grid-template-columns: 1fr; gap: 48px; }
+    .how-visual { position: static; }
+    .community-pillars { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    footer { padding: 48px 24px 32px; }
+    .footer-top { flex-direction: column; }
+    .mission { padding: 64px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo"><img src="hor-logo.png" alt="Plein Air Pal"></a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="mailto:info@pleinairpal.com">Contact</a></li>
+    <li><a href="#download" class="nav-cta">Get the App</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge"><div class="hero-badge-dot"></div>Now available on iOS &amp; Android</div>
+  <h1 class="hero-title">The World is<br><em>Your Studio.</em></h1>
+  <p class="hero-subtitle">The only app for outdoor painters.</p>
+  <p class="hero-desc">Map your plein air paintings, connect with fellow artists, and discover beautiful locations where art meets nature.</p>
+  <div class="hero-actions">
+    <a href="#download" class="btn-primary">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="white"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.39-1.32 2.76-2.54 3.99zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+      App Store
+    </a>
+    <a href="#download" class="btn-secondary">
+      <svg viewBox="0 0 512 512" width="16" height="16" fill="currentColor"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l232.6-232.6L47 0zm414 210.1L375.6 256l61.4 45.9L512 256l-51-45.9zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg>
+      Google Play
+    </a>
+  </div>
+</section>
+
+<div class="map-preview reveal">
+  <div class="map-frame">
+    <div class="map-placeholder">
+      <div class="map-grid"></div>
+      <div class="map-filter-bar">
+        <div class="map-chip active">Explore</div>
+        <div class="map-chip">Artists</div>
+        <div class="map-chip">My Pins</div>
+        <div class="map-chip">My Pals</div>
+      </div>
+      <div class="map-pin" style="top:30%;left:20%;animation-delay:0s"><div class="map-pin-circle" style="background:linear-gradient(135deg,#c8d8a0,#d8c8a0)">🎨</div><div class="map-pin-dot"></div></div>
+      <div class="map-pin" style="top:48%;left:44%;animation-delay:0.4s"><div class="map-pin-circle" style="background:linear-gradient(135deg,#d0c0a8,#c8b090)">🖌️</div><div class="map-pin-dot"></div></div>
+      <div class="map-pin" style="top:32%;left:66%;animation-delay:0.8s"><div class="map-pin-circle" style="background:linear-gradient(135deg,#b8c890,#a8b880)">🎨</div><div class="map-pin-dot"></div></div>
+      <div class="map-pin" style="top:60%;left:74%;animation-delay:0.2s"><div class="map-pin-circle" style="background:linear-gradient(135deg,#d8c0a0,#c8b090)">🖼️</div><div class="map-pin-dot"></div></div>
+      <div class="map-pin" style="top:55%;left:30%;animation-delay:0.6s"><div class="map-pin-circle" style="background:linear-gradient(135deg,#c0d0b0,#b0c8a0)">🎨</div><div class="map-pin-dot"></div></div>
+      <div class="pin-live" style="top:42%;left:55%"></div>
+      <div class="map-card"><div class="map-card-avatar">🎨</div><div><div class="map-card-title">Morning Light at the Lake</div><div class="map-card-meta">Sarah M. · Oil on panel · Sedona, AZ</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="mission">
+  <div class="mission-inner reveal">
+    <p class="mission-quote">"Every landscape tells a story.<br>Plein Air Pal helps you share yours."</p>
+    <p class="mission-sub">Built by artists, for artists who paint in the open air.</p>
+  </div>
+</div>
+
+<section class="features" id="features">
+  <div class="features-inner">
+    <div class="features-header reveal">
+      <span class="section-label">Everything you need</span>
+      <h2 class="section-title">Built for the <em>outdoor artist</em></h2>
+      <p class="section-desc">Every feature designed around how plein air painters actually work — spontaneous, location-driven, and community-focused.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal"><div class="feature-icon">🗺️</div><h3 class="feature-title">Interactive Map</h3><p class="feature-desc">Discover paintings pinned to the exact spot they were created. Find inspiring locations and explore through other artists' eyes.</p></div>
+      <div class="feature-card reveal" style="transition-delay:0.1s"><div class="feature-icon">📡</div><h3 class="feature-title">Paint Live</h3><p class="feature-desc">Share your real-time location while painting so fellow artists can find you. See who's out painting nearby and connect on the spot.</p></div>
+      <div class="feature-card reveal" style="transition-delay:0.2s"><div class="feature-icon">🖼️</div><h3 class="feature-title">Social Feed</h3><p class="feature-desc">A feed of paintings from artists you follow, with likes and comments. Build genuine connections with the plein air community.</p></div>
+      <div class="feature-card reveal" style="transition-delay:0.3s"><div class="feature-icon">📅</div><h3 class="feature-title">Events & Workshops</h3><p class="feature-desc">Find plein air competitions, paint-outs, and workshops. Host your own meetups and workshops directly in the app.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="video-section" id="preview">
+  <div class="video-inner">
+    <div class="reveal">
+      <span class="section-label">See it in action</span>
+      <h2 class="section-title">Experience<br>the <em>app</em></h2>
+      <p class="video-desc">Watch how Plein Air Pal brings the outdoor painting community together — from uploading your first painting to discovering locations around the world.</p>
+      <p class="video-desc" style="margin-top:12px;font-size:13px;color:var(--gray-300)">App preview video coming soon.</p>
+    </div>
+    <div class="phone-wrap reveal" style="transition-delay:0.2s">
+      <div class="phone-outer">
+        <div class="phone-inner">
+          <div class="phone-notch"></div>
+          <div class="phone-screen-content">
+            <div class="phone-map-grid"></div>
+            <div class="phone-pin" style="top:25%;left:20%;background:linear-gradient(135deg,#c8d8a0,#d8c8a0)">🎨</div>
+            <div class="phone-pin" style="top:45%;left:55%;background:linear-gradient(135deg,#d0c0a8,#c8b090)">🖌️</div>
+            <div class="phone-pin" style="top:60%;left:30%;background:linear-gradient(135deg,#b8c890,#a8b880)">🎨</div>
+            <div class="phone-video-label">App preview coming soon</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="how-inner">
+    <div>
+      <span class="section-label reveal">Getting started</span>
+      <h2 class="section-title reveal">Simple as picking<br>up a <em>brush</em></h2>
+      <div class="how-steps">
+        <div class="how-step reveal"><div class="step-num">01</div><div><h3 class="step-title">Create your profile</h3><p class="step-desc">Sign up in seconds. Add your bio, preferred mediums, and start following artists whose work inspires you.</p></div></div>
+        <div class="how-step reveal" style="transition-delay:0.15s"><div class="step-num">02</div><div><h3 class="step-title">Upload your paintings</h3><p class="step-desc">Photograph your work, tag the location, add medium and size — your painting gets pinned to the map and shared with the community.</p></div></div>
+        <div class="how-step reveal" style="transition-delay:0.3s"><div class="step-num">03</div><div><h3 class="step-title">Explore &amp; connect</h3><p class="step-desc">Discover painting locations, find artists painting live near you, attend events, and build your plein air community.</p></div></div>
+      </div>
+    </div>
+    <div class="how-visual reveal" style="transition-delay:0.2s">
+      <div class="how-phone-wrap">
+        <div class="how-phone">
+          <div class="how-phone-screen">
+            <div class="how-phone-notch"></div>
+            <div class="how-phone-feed">
+              <div class="feed-card"><div class="feed-card-img" style="background:linear-gradient(135deg,#c8d8a0,#d8c8a0)">🎨</div><div class="feed-card-body"><div class="feed-card-title">Golden Hour, Red Rocks</div><div class="feed-card-meta">Oil · 12×16 in · Sedona, AZ</div></div></div>
+              <div class="feed-card"><div class="feed-card-img" style="background:linear-gradient(135deg,#d0c8b0,#c8c0a0)">🌅</div><div class="feed-card-body"><div class="feed-card-title">Morning Mist, Hudson Valley</div><div class="feed-card-meta">Watercolor · 9×12 in · New York</div></div></div>
+              <div class="feed-card"><div class="feed-card-img" style="background:linear-gradient(135deg,#b8c890,#c0d0a0)">🏞️</div><div class="feed-card-body"><div class="feed-card-title">Coastal Light, Big Sur</div><div class="feed-card-meta">Acrylic · 8×10 in · California</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="community-section" id="community">
+  <div class="community-inner">
+    <span class="section-label reveal">The community</span>
+    <h2 class="section-title reveal">Where plein air <em>comes alive</em></h2>
+    <p class="section-desc reveal">A growing community of outdoor painters discovering new locations, sharing their work, and connecting with fellow artists around the world.</p>
+    <div class="community-pillars reveal">
+      <div class="community-pillar">
+        <span class="pillar-icon">🗺️</span>
+        <h3 class="pillar-title">Paintings on the Map</h3>
+        <p class="pillar-desc">Every painting you upload is pinned to the exact location it was painted, building a living map of plein air art around the world.</p>
+      </div>
+      <div class="community-pillar">
+        <span class="pillar-icon">📅</span>
+        <h3 class="pillar-title">Events & Gatherings</h3>
+        <p class="pillar-desc">Discover competitions, paint-outs, workshops, and meetups near you. Create your own and bring artists together.</p>
+      </div>
+      <div class="community-pillar">
+        <span class="pillar-icon">🌍</span>
+        <h3 class="pillar-title">Locations to Discover</h3>
+        <p class="pillar-desc">Find stunning painting spots through the eyes of other artists — from hidden gems in your city to iconic landscapes worldwide.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="download">
+  <div class="cta-inner">
+    <span class="section-label reveal">Get the app</span>
+    <h2 class="section-title reveal">Start painting <em>the world</em></h2>
+    <p class="cta-desc reveal">Free to download. Start your 7-day trial and experience everything Plein Air Pal has to offer.</p>
+    <div class="store-buttons reveal">
+      <a href="#" class="store-btn">
+        <svg viewBox="0 0 24 24"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.39-1.32 2.76-2.54 3.99zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+        <div class="store-btn-text"><span class="store-btn-sub">Download on the</span><span class="store-btn-name">App Store</span></div>
+      </a>
+      <a href="#" class="store-btn">
+        <svg viewBox="0 0 512 512"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l232.6-232.6L47 0zm414 210.1L375.6 256l61.4 45.9L512 256l-51-45.9zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg>
+        <div class="store-btn-text"><span class="store-btn-sub">Get it on</span><span class="store-btn-name">Google Play</span></div>
+      </a>
+    </div>
+    <div class="cta-brand reveal">
+      <img src="hor-logo.png" alt="Plein Air Pal">
+      <p class="cta-note">Questions? <a href="mailto:info@pleinairpal.com">info@pleinairpal.com</a></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-logo">
+        <img src="hor-logo.png" alt="Plein Air Pal">
+        <p class="footer-tagline">The World is Your Studio.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col"><h4>App</h4><ul><li><a href="#features">Features</a></li><li><a href="#how">How it works</a></li><li><a href="#download">Download</a></li></ul></div>
+        <div class="footer-col"><h4>Community</h4><ul><li><a href="#community">Events</a></li><li><a href="#community">Artists</a></li><li><a href="#community">Locations</a></li></ul></div>
+        <div class="footer-col"><h4>Support</h4><ul><li><a href="mailto:info@pleinairpal.com">Contact</a></li><li><a href="privacy-policy.html">Privacy Policy</a></li><li><a href="terms-of-use.html">Terms of Use</a></li></ul></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2026 Plein Air Pal. All rights reserved.</p>
+      <div class="footer-legal"><a href="privacy-policy.html">Privacy</a><a href="terms-of-use.html">Terms</a><a href="mailto:info@pleinairpal.com">Contact</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
