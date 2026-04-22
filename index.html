@@ -381,6 +381,88 @@
     entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Email confirmation banner
+  (function() {
+    const hash = window.location.hash;
+    const search = window.location.search;
+    const isConfirmation = 
+      hash.includes('access_token') || 
+      hash.includes('type=signup') ||
+      search.includes('type=signup') ||
+      search.includes('confirmation_token') ||
+      hash.includes('type=email_change') ||
+      search.includes('type=recovery');
+
+    if (isConfirmation) {
+      const isRecovery = hash.includes('type=recovery') || search.includes('type=recovery');
+      const banner = document.createElement('div');
+      banner.id = 'confirm-banner';
+      banner.innerHTML = `
+        <div style="
+          position: fixed;
+          top: 0; left: 0; right: 0;
+          z-index: 9999;
+          background: #758C4A;
+          color: white;
+          padding: 0;
+          box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+        ">
+          <div style="
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 28px 24px;
+            text-align: center;
+          ">
+            <div style="font-size: 36px; margin-bottom: 12px;">✅</div>
+            <h2 style="
+              font-family: 'Cormorant Garamond', serif;
+              font-size: 28px;
+              font-weight: 700;
+              margin-bottom: 10px;
+              color: white;
+            ">${isRecovery ? 'Password Reset Ready' : 'Email Confirmed!'}</h2>
+            <p style="
+              font-size: 15px;
+              color: rgba(255,255,255,0.9);
+              line-height: 1.6;
+              margin-bottom: 20px;
+            ">${isRecovery 
+              ? 'You can now set a new password. Open the Plein Air Pal app to continue.' 
+              : 'Your email has been verified. You can now open the Plein Air Pal app and log in to start your journey.'
+            }</p>
+            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+              <a href="https://apps.apple.com/app/plein-air-pal" style="
+                display: inline-block;
+                background: white;
+                color: #758C4A;
+                text-decoration: none;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 700;
+                font-family: Inter, sans-serif;
+              ">Open App Store →</a>
+              <button onclick="document.getElementById('confirm-banner').remove()" style="
+                background: rgba(255,255,255,0.2);
+                border: 1.5px solid rgba(255,255,255,0.5);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 600;
+                font-family: Inter, sans-serif;
+                cursor: pointer;
+              ">Dismiss</button>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.insertBefore(banner, document.body.firstChild);
+      // Push content down so nav isn't hidden
+      document.querySelector('nav').style.top = banner.firstElementChild.offsetHeight + 'px';
+    }
+  })();
 </script>
 </body>
 </html>
