@@ -351,10 +351,25 @@
     </div>
     <div class="cta-brand reveal">
       <img src="hor-logo.png" alt="Plein Air Pal">
-      <p class="cta-note">Questions? <a href="mailto:info@pleinairpal.com">info@pleinairpal.com</a></p>
+      <p class="cta-note">Questions? <a href="#" onclick="document.getElementById('contact-modal').style.display='flex'; return false;">info@pleinairpal.com</a></p>
     </div>
   </div>
 </section>
+
+<!-- Contact Modal -->
+<div id="contact-modal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; padding:24px;">
+  <div style="background:white; border-radius:16px; padding:36px; max-width:440px; width:100%; text-align:center; position:relative;">
+    <button onclick="document.getElementById('contact-modal').style.display='none'" style="position:absolute; top:16px; right:16px; background:none; border:none; font-size:20px; cursor:pointer; color:#666;">✕</button>
+    <div style="font-size:40px; margin-bottom:16px;">✉️</div>
+    <h3 style="font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:700; color:#0A0A0A; margin-bottom:8px;">Get in Touch</h3>
+    <p style="font-size:15px; color:#666; line-height:1.6; margin-bottom:24px;">Have a question, feedback, or want to list your event? We'd love to hear from you.</p>
+    <div style="background:#f5f5f5; border-radius:10px; padding:16px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px;">
+      <span style="font-size:15px; font-weight:600; color:#0A0A0A;">info@pleinairpal.com</span>
+      <button id="copy-btn" onclick="navigator.clipboard.writeText('info@pleinairpal.com').then(()=>{ document.getElementById('copy-btn').textContent='Copied!'; setTimeout(()=>{ document.getElementById('copy-btn').textContent='Copy'; },2000); })" style="background:#758C4A; color:white; border:none; border-radius:6px; padding:8px 16px; font-size:13px; font-weight:600; cursor:pointer; white-space:nowrap;">Copy</button>
+    </div>
+    <p style="font-size:13px; color:#999;">We typically respond within 24 hours.</p>
+  </div>
+</div>
 
 <footer>
   <div class="footer-inner">
@@ -366,12 +381,12 @@
       <div class="footer-links">
         <div class="footer-col"><h4>App</h4><ul><li><a href="#features">Features</a></li><li><a href="#how">How it works</a></li><li><a href="#download">Download</a></li></ul></div>
         <div class="footer-col"><h4>Community</h4><ul><li><a href="#community">Events</a></li><li><a href="#community">Artists</a></li><li><a href="#community">Locations</a></li></ul></div>
-        <div class="footer-col"><h4>Support</h4><ul><li><a href="mailto:info@pleinairpal.com">Contact</a></li><li><a href="privacy-policy.html">Privacy Policy</a></li><li><a href="terms-of-use.html">Terms of Use</a></li></ul></div>
+        <div class="footer-col"><h4>Support</h4><ul><li><a href="#" onclick="document.getElementById('contact-modal').style.display='flex'; return false;">Contact</a></li><li><a href="privacy-policy.html">Privacy Policy</a></li><li><a href="terms-of-use.html">Terms of Use</a></li></ul></div>
       </div>
     </div>
     <div class="footer-bottom">
       <p class="footer-copy">&copy; 2026 Plein Air Pal. All rights reserved.</p>
-      <div class="footer-legal"><a href="privacy-policy.html">Privacy</a><a href="terms-of-use.html">Terms</a><a href="mailto:info@pleinairpal.com">Contact</a></div>
+      <div class="footer-legal"><a href="privacy-policy.html">Privacy</a><a href="terms-of-use.html">Terms</a><a href="#" onclick="document.getElementById('contact-modal').style.display='flex'; return false;">Contact</a></div>
     </div>
   </div>
 </footer>
