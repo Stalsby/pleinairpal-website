@@ -119,7 +119,7 @@
   .how-step { display: flex; gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--border); }
   .how-step:first-child { padding-top: 0; }
   .how-step:last-child { border-bottom: none; }
-  .step-num { font-family: 'Cormorant Garamond', serif; font-size: 13px; font-weight: 600; color: var(--green); min-width: 24px; padding-top: 3px; letter-spacing: 0.05em; }
+  .step-num { font-family: 'Inter', sans-serif; font-size: 36px; font-weight: 300; color: var(--green); min-width: 56px; line-height: 1; letter-spacing: -0.02em; opacity: 0.8; }
   .step-title { font-size: 16px; font-weight: 600; color: var(--black); margin-bottom: 6px; }
   .step-desc { font-size: 14px; color: var(--gray-500); line-height: 1.65; }
   .how-visual { position: sticky; top: 100px; }
@@ -141,7 +141,7 @@
   .community-section .section-desc { color: rgba(255,255,255,0.45); margin: 16px auto 64px; }
   .community-pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; }
   .community-pillar { padding: 48px 32px; background: rgba(255,255,255,0.02); text-align: center; }
-  .pillar-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+  .pillar-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
   .pillar-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 10px; letter-spacing: -0.01em; }
   .pillar-desc { font-size: 14px; color: rgba(255,255,255,0.4); line-height: 1.6; }
 
@@ -440,17 +440,17 @@
     <p class="section-desc reveal">A growing community of outdoor painters discovering new locations, sharing their work, and connecting with fellow artists around the world.</p>
     <div class="community-pillars reveal">
       <div class="community-pillar">
-        <span class="pillar-icon">🗺️</span>
+        <div class="pillar-icon" style="background:rgba(21,101,192,0.15)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5B9BD5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
         <h3 class="pillar-title">Paintings on the Map</h3>
         <p class="pillar-desc">Every painting you upload is pinned to the exact location it was painted, building a living map of plein air art around the world.</p>
       </div>
       <div class="community-pillar">
-        <span class="pillar-icon">📅</span>
+        <div class="pillar-icon" style="background:rgba(230,81,0,0.15)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg></div>
         <h3 class="pillar-title">Events & Gatherings</h3>
         <p class="pillar-desc">Discover competitions, paint-outs, workshops, and meetups near you. Create your own and bring artists together.</p>
       </div>
       <div class="community-pillar">
-        <span class="pillar-icon">🌍</span>
+        <div class="pillar-icon" style="background:rgba(117,140,74,0.15)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#758C4A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
         <h3 class="pillar-title">Locations to Discover</h3>
         <p class="pillar-desc">Find stunning painting spots through the eyes of other artists — from hidden gems in your city to iconic landscapes worldwide.</p>
       </div>
