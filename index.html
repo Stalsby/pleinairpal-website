@@ -443,7 +443,7 @@
                 font-weight: 700;
                 font-family: Inter, sans-serif;
               ">Open App Store →</a>
-              <button onclick="document.getElementById('confirm-banner').remove()" style="
+              <button onclick="document.getElementById('confirm-banner').remove(); document.querySelector('nav').style.top = '0';"
                 background: rgba(255,255,255,0.2);
                 border: 1.5px solid rgba(255,255,255,0.5);
                 color: white;
