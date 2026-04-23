@@ -261,7 +261,7 @@
         <div class="map-chip" onclick="setFilter('mypins')" style="cursor:pointer">My Pins</div>
         <div class="map-chip" onclick="setFilter('mypals')" style="cursor:pointer">My Pals</div>
         <div style="width:1px;background:#eee;margin:0 2px"></div>
-        <div style="padding:5px 8px;display:flex;align-items:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C8C8C" stroke-width="2"><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="5" cy="12" r="2"/></svg></div>
+        <div style="padding:5px 8px;display:flex;align-items:center;cursor:pointer;border-radius:16px;" onclick="toggleMapSettings()" id="map-settings-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8C8C8C" stroke-width="2"><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="5" cy="12" r="2"/></svg></div>
       </div>
 
       <!-- Painting pins - clickable -->
@@ -294,7 +294,7 @@
       <div class="pin-live pin-artists" style="top:68%;left:58%;animation-delay:0.3s"></div>
 
       <!-- Current user dot (blue) -->
-      <div class="pin-me" id="pin-me" style="top:50%;left:62%"></div>
+      <div class="pin-me" id="pin-me" style="display:none" style="top:50%;left:62%"></div>
 
       <!-- Pin card popup (hidden by default) -->
       <div id="map-popup" class="map-card" style="display:none">
@@ -336,6 +336,37 @@
 
       <script>
       
+
+  var shareLocationOn = false;
+  var mapSettingsOpen = false;
+
+  function toggleMapSettings() {
+    mapSettingsOpen = !mapSettingsOpen;
+    var panel = document.getElementById('map-settings-panel');
+    panel.style.display = mapSettingsOpen ? 'block' : 'none';
+  }
+
+  function toggleShareLocation() {
+    shareLocationOn = !shareLocationOn;
+    var toggle = document.getElementById('map-toggle');
+    var thumb = document.getElementById('map-toggle-thumb');
+    var me = document.getElementById('pin-me');
+    
+    toggle.style.background = shareLocationOn ? '#EEF2E6' : '#E8E4DE';
+    thumb.style.left = shareLocationOn ? '20px' : '2px';
+    thumb.style.background = shareLocationOn ? '#758C4A' : 'white';
+    
+    if(me) me.style.display = shareLocationOn ? 'block' : 'none';
+  }
+
+  // Close settings when clicking outside
+  document.addEventListener('click', function(e) {
+    if(mapSettingsOpen && !e.target.closest('#map-settings-btn') && !e.target.closest('#map-settings-panel')) {
+      mapSettingsOpen = false;
+      document.getElementById('map-settings-panel').style.display = 'none';
+    }
+  });
+
   function setFilter(filter) {
     // Update chip active states
     document.querySelectorAll('.map-chip').forEach(function(chip) {
@@ -352,7 +383,7 @@
     var cluster = document.getElementById('map-cluster');
     var me = document.getElementById('pin-me');
     if(cluster) cluster.style.display='none';
-    if(me) me.style.display='none';
+    if(me) me.style.display='none'; // handled by share location toggle
     document.getElementById('map-popup').style.display='none';
 
     if(filter === 'explore') {
@@ -360,7 +391,7 @@
       if(cluster) cluster.style.display='flex';
     } else if(filter === 'artists') {
       document.querySelectorAll('.pin-artists').forEach(function(p){ p.style.display='block'; });
-      if(me) me.style.display='block';
+      if(me) me.style.display = shareLocationOn ? 'block' : 'none';
     } else if(filter === 'mypins') {
       document.querySelectorAll('.pin-mypins').forEach(function(p){ p.style.display='flex'; });
     } else if(filter === 'mypals') {
