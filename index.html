@@ -237,10 +237,10 @@
   <div style="text-align:center;margin-bottom:16px;">
     <span style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#758C4A;font-family:Inter,sans-serif">Interactive Demo</span>
     <h3 style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3vw,36px);font-weight:700;color:#0A0A0A;margin:6px 0 4px;letter-spacing:-0.02em">See the world through painters&apos; eyes</h3>
-    <p style="font-size:14px;color:#666;font-family:Inter,sans-serif">Tap the filters to explore how Plein Air Pal organizes the map</p>
+    <p style="font-size:14px;color:#666;font-family:Inter,sans-serif">Tap the filters to explore how Plein Air Pal organizes the map and view paintings by clicking the circles.</p>
   </div>
   <div class="map-frame">
-    <div class="map-placeholder">
+    <div class="map-placeholder" onclick="handleMapClick(event)">
       <!-- Road network SVG -->
       <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:0.25" viewBox="0 0 1000 562" preserveAspectRatio="xMidYMid slice">
         <path d="M0,280 Q200,260 400,290 Q600,320 1000,270" stroke="#b8a878" stroke-width="8" fill="none"/>
@@ -336,6 +336,20 @@
 
       <script>
       
+
+
+  function handleMapClick(e) {
+    // Close popup if clicking outside of it
+    var popup = document.getElementById('map-popup');
+    if(popup.style.display !== 'none' && !e.target.closest('#map-popup')) {
+      popup.style.display = 'none';
+    }
+    // Close settings if clicking outside
+    if(mapSettingsOpen && !e.target.closest('#map-settings-btn') && !e.target.closest('#map-settings-panel')) {
+      mapSettingsOpen = false;
+      document.getElementById('map-settings-panel').style.display = 'none';
+    }
+  }
 
   var shareLocationOn = false;
   var mapSettingsOpen = false;
