@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Confirmed — Plein Air Pal</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #758C4A;
+    --green-dark: #5a6d38;
+    --green-light: #f0f4e8;
+    --black: #0A0A0A;
+    --gray-700: #333333;
+    --gray-500: #666666;
+    --gray-300: #BBBBBB;
+    --white: #FFFFFF;
+    --border: #E8E8E8;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+  }
+  .card { max-width: 460px; width: 100%; text-align: center; }
+  .logo img { height: 30px; width: auto; margin-bottom: 40px; }
+  .mark {
+    width: 64px; height: 64px; margin: 0 auto 28px;
+    background: var(--green-light); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mark svg { width: 30px; height: 30px; }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(34px, 7vw, 46px);
+    font-weight: 700; line-height: 1.1;
+    letter-spacing: -0.02em; margin-bottom: 14px;
+  }
+  h1 em { font-style: italic; color: var(--green); }
+  p.lede { font-size: 16px; color: var(--gray-500); margin-bottom: 32px; }
+  .actions { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+  .btn-primary {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    background: var(--black); color: var(--white); text-decoration: none;
+    padding: 14px 28px; border-radius: 10px;
+    font-size: 15px; font-weight: 600; line-height: 1;
+    transition: all 0.2s; border: none; cursor: pointer;
+    font-family: inherit;
+  }
+  .btn-primary:hover { background: var(--gray-700); transform: translateY(-1px); }
+  .btn-text {
+    background: none; border: none; cursor: pointer;
+    font-family: inherit; font-size: 14px; font-weight: 500;
+    color: var(--gray-500); text-decoration: none;
+    padding: 8px 12px; transition: color 0.2s;
+  }
+  .btn-text:hover { color: var(--black); }
+  .hint { font-size: 13px; color: var(--gray-300); margin-top: 28px; }
+  #opening { display: none; }
+  .spinner {
+    width: 22px; height: 22px; margin: 0 auto 20px;
+    border: 2px solid var(--border); border-top-color: var(--green);
+    border-radius: 50%; animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="logo"><img src="hor-logo.png" alt="Plein Air Pal"></div>
+
+  <!-- Shown briefly while we try to hand off to the app -->
+  <div id="opening">
+    <div class="spinner"></div>
+    <p class="lede">Opening Plein Air Pal…</p>
+  </div>
+
+  <!-- Fallback: shown if the app never took over -->
+  <div id="confirmed" style="display:none;">
+    <div class="mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#758C4A" stroke-width="2.5"
+           stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+    <h1>You're <em>confirmed</em></h1>
+    <p class="lede">
+      Your email is verified. Open Plein Air Pal on your phone and sign in to start
+      pinning your paintings to the map.
+    </p>
+    <div class="actions">
+      <a class="btn-primary" href="https://apps.apple.com/us/app/plein-air-pal/id6761808296">
+        Open the App Store
+      </a>
+      <button class="btn-text" id="retry" type="button">Open in the app</button>
+    </div>
+    <p class="hint">Already have the app? Just open it and log in.</p>
+  </div>
+
+  <!-- Shown when the link is malformed or expired -->
+  <div id="problem" style="display:none;">
+    <h1>Link didn't work</h1>
+    <p class="lede">
+      This confirmation link looks incomplete or has already been used. Try opening
+      Plein Air Pal and requesting a new verification email.
+    </p>
+    <div class="actions">
+      <a class="btn-primary" href="https://apps.apple.com/us/app/plein-air-pal/id6761808296">
+        Open the App Store
+      </a>
+      <a class="btn-text" href="/">Back to pleinairpal.com</a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var APP_SCHEME = 'pleinairpal://';
+  var HANDOFF_MS = 1400;
+
+  // Supabase returns tokens in the URL fragment (#access_token=...), which never
+  // reaches a server — only this script can read it. Newer projects may use a
+  // ?code= query param instead, so check both.
+  var hash = window.location.hash ? window.location.hash.substring(1) : '';
+  var search = window.location.search ? window.location.search.substring(1) : '';
+  var payload = hash || search;
+
+  var params = new URLSearchParams(payload);
+  var hasTokens = params.get('access_token') || params.get('code');
+  var hasError = params.get('error') || params.get('error_description');
+
+  function show(id) {
+    ['opening', 'confirmed', 'problem'].forEach(function (n) {
+      document.getElementById(n).style.display = (n === id) ? 'block' : 'none';
+    });
+  }
+
+  // A bare visit with no payload at all, or an explicit error from Supabase.
+  if (!hasTokens || hasError) {
+    show('problem');
+    return;
+  }
+
+  // Pass the payload through unchanged. The app's DeepLinkHandler parses
+  // access_token / refresh_token out of the fragment exactly as Supabase wrote it.
+  var deepLink = APP_SCHEME + '#' + payload;
+
+  function attemptHandoff() {
+    show('opening');
+    var startedAt = Date.now();
+
+    // If the app opens, the browser is backgrounded and the timer below is
+    // suspended — so on return it will have "elapsed" far longer than the
+    // threshold, which is how we tell success from failure.
+    window.location.href = deepLink;
+
+    setTimeout(function () {
+      var elapsed = Date.now() - startedAt;
+      // Padding on the threshold: a backgrounded tab reports a long elapsed
+      // time, a failed scheme reports roughly HANDOFF_MS.
+      if (elapsed < HANDOFF_MS + 400) {
+        show('confirmed');
+      }
+    }, HANDOFF_MS);
+  }
+
+  // If the page is hidden the app took over — nothing more to do.
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      show('confirmed'); // what they'd see on return
+    }
+  });
+
+  document.getElementById('retry').addEventListener('click', function () {
+    window.location.href = deepLink;
+  });
+
+  // Desktop browsers can't open a custom scheme and some show a modal error
+  // dialog when one is attempted. Only try the handoff on mobile.
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    attemptHandoff();
+  } else {
+    show('confirmed');
+  }
+})();
+</script>
+
+</body>
+</html>
