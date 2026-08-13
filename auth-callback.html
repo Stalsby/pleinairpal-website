@@ -194,6 +194,9 @@
   if (isMobile) {
     attemptHandoff();
   } else {
+    // Desktop can't open a custom scheme, so the retry button has nothing to
+    // do — hide it rather than offering an action that silently fails.
+    document.getElementById('retry').style.display = 'none';
     show('confirmed');
   }
 })();
