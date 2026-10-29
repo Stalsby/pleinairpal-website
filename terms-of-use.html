@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Terms of Use — Plein Air Pal</title>
+<title>Terms of Use | Plein Air Pal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -19,9 +19,15 @@
   .doc-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 12px; display: block; }
   .doc-title { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 700; color: var(--black); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 8px; }
   .doc-meta { font-size: 13px; color: var(--gray-500); margin-bottom: 56px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
-  .section { margin-bottom: 40px; }
+  .section { margin-bottom: 40px; scroll-margin-top: 24px; }
   .section h2 { font-size: 18px; font-weight: 600; color: var(--black); margin-bottom: 12px; letter-spacing: -0.01em; }
-  .section p { font-size: 15px; color: var(--gray-700); line-height: 1.75; white-space: pre-line; }
+  .section p { font-size: 15px; color: var(--gray-700); line-height: 1.75; }
+  .section p + p { margin-top: 12px; }
+  .section ul { margin: 10px 0 0 20px; }
+  .section ul + p { margin-top: 12px; }
+  .section li { font-size: 15px; color: var(--gray-700); line-height: 1.75; margin-bottom: 6px; }
+  .section a { color: var(--green); text-decoration: underline; text-underline-offset: 2px; }
+  .section a:focus-visible, .footer-links a:focus-visible, .nav-back:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
   .divider { height: 1px; background: var(--border); margin-bottom: 40px; }
   footer { background: var(--gray-50); border-top: 1px solid var(--border); padding: 32px 48px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
   .footer-copy { font-size: 13px; color: var(--gray-500); }
@@ -40,106 +46,135 @@
 <div class="container">
   <span class="doc-label">Legal</span>
   <h1 class="doc-title">Terms of Use</h1>
-  <p class="doc-meta">Last updated: March 2026</p>
+  <p class="doc-meta">Last updated: October 29, 2026</p>
 
-  <div class="section">
-    <h2>Acceptance of Terms</h2>
-    <p>By downloading, installing, or using Plein Air Pal, you agree to be bound by these Terms of Use. If you do not agree to these terms, do not use the app. We reserve the right to update these terms at any time, and your continued use of the app constitutes acceptance of any changes.</p>
+  <div class="section" id="acceptance">
+    <h2>Acceptance of these terms</h2>
+    <p>These Terms of Use apply to your use of the Plein Air Pal mobile app. In these terms, "we" and "us" mean the developer of Plein Air Pal. By creating an account or using the app, you agree to these terms and to our <a href="privacy-policy.html">Privacy Policy</a>. If you do not agree, do not use the app.</p>
   </div>
   <div class="divider"></div>
 
-  <div class="section">
-    <h2>Description of Service</h2>
-    <p>Plein Air Pal is a mobile application for the plein air painting community. The app enables users to discover painting locations, share their artwork on a map, follow other artists, and find and create local events including competitions, paint outs, workshops, and meetups.</p>
+  <div class="section" id="service">
+    <h2>The service</h2>
+    <p>Plein Air Pal is a community app for plein air painters. It lets you share your paintings on a map, discover painting locations, follow other artists, comment, find and post events such as competitions, paint outs, workshops and meet ups, and optionally share your live location with other users. Features may change over time.</p>
   </div>
   <div class="divider"></div>
 
-  <div class="section">
-    <h2>Account Registration</h2>
-    <p>To access most features of Plein Air Pal, you must create an account using a valid email address. You are responsible for maintaining the confidentiality of your account credentials and for all activity that occurs under your account. You must be at least 13 years old to create an account. You agree to provide accurate and current information and to update it as needed.</p>
+  <div class="section" id="accounts">
+    <h2>Your account</h2>
+    <ul>
+      <li>You must be at least 18 years old to create an account and use the app.</li>
+      <li>You need a valid email address, and you must give accurate information and keep it up to date.</li>
+      <li>You are responsible for keeping your login details secure and for everything that happens under your account. Tell us at <a href="mailto:info@pleinairpal.com">info@pleinairpal.com</a> if you think someone else is using it.</li>
+      <li>One person per account. Do not create an account for someone else or impersonate anyone.</li>
+    </ul>
   </div>
   <div class="divider"></div>
 
-  <div class="section">
-    <h2>Subscription and Billing</h2>
-    <p>Plein Air Pal offers a premium subscription with the following plans:
-
-• Monthly Plan: $3.99 per month
-• Annual Plan: $24.99 per year
-
-Subscriptions auto-renew at the end of each billing period unless cancelled at least 24 hours before the renewal date. You may cancel your subscription at any time through your device's app store account settings. Refunds are subject to the refund policy of the applicable app store (Apple App Store or Google Play Store). We do not offer refunds for partial subscription periods.</p>
+  <div class="section" id="subscriptions">
+    <h2>Pro subscription</h2>
+    <p>Some features require a Plein Air Pal Pro subscription. Subscriptions are sold and billed through the Apple App Store or Google Play, and the price, billing period and any trial offer are shown before you confirm a purchase. Prices can vary by country and may change, and we will give notice of a price change as the app store requires.</p>
+    <ul>
+      <li>Subscriptions renew automatically at the end of each billing period unless you cancel at least 24 hours before the renewal date.</li>
+      <li>You can manage or cancel your subscription at any time in your Apple ID subscription settings or in Google Play. Cancelling stops future renewals, and you keep Pro access until the end of the period you have paid for.</li>
+      <li>Deleting your Plein Air Pal account or the app does not cancel a subscription. Cancel it in your app store account.</li>
+      <li>Refunds are handled by Apple or Google under their refund policies. We do not offer refunds for partial billing periods, except where the law requires it.</li>
+    </ul>
   </div>
   <div class="divider"></div>
 
-  <div class="section">
-    <h2>Event Listings</h2>
-    <p>Subscribers may pay a one-time listing fee to publish events on Plein Air Pal:
-
-• Meet Up listing fee: $4.99
-• Workshop listing fee: $9.99
-• Paint Out listing fee: $14.99
-• Competition listing fee: $19.99
-
-Listing fees are non-refundable once a listing has been published. Event creators are solely responsible for the accuracy of their listing content, including dates, times, pricing, location, registration links, and event conduct. Plein Air Pal is not a party to any transaction between event creators and attendees and is not liable for any disputes, injuries, losses, or damages arising from user-created events.</p>
+  <div class="section" id="events">
+    <h2>Events</h2>
+    <p>If you post an event, you are responsible for everything in the listing, including dates, times, prices, locations, registration links and contact details, and for how the event is run. Only post events you organize or are authorized to promote.</p>
+    <p>We do not organize, check or supervise events posted by users, and we are not a party to any arrangement or payment between organizers and attendees. Any dispute about an event is between the organizer and the attendees.</p>
   </div>
   <div class="divider"></div>
 
-  <div class="section">
-    <h2>User Content</h2>
-    <p>You retain full ownership of all artwork and content you upload to Plein Air Pal. By uploading content, you grant Plein Air Pal a non-exclusive, royalty-free, worldwide license to display, reproduce, and distribute your content within the app and for promotional purposes related to the app. You represent that you own or have the necessary rights to all content you upload, and that your content does not infringe the rights of any third party.</p>
+  <div class="section" id="safety">
+    <h2>Meeting people and painting outdoors</h2>
+    <p>Plein Air Pal helps painters meet and paint together, but we do not screen users or verify who they are. Use good judgment:</p>
+    <ul>
+      <li>Meet new people in public places, and tell someone you trust where you are going.</li>
+      <li>Only share your live location when you are comfortable with other users seeing where you are, and switch it off when you are done.</li>
+      <li>Painting outdoors has risks, such as weather, traffic, terrain, private property and wildlife. Check the rules for any location and stay safe.</li>
+    </ul>
+    <p>You are responsible for your own safety and your own conduct when you meet other users or visit a location you found in the app.</p>
   </div>
   <div class="divider"></div>
 
-  <div class="section">
-    <h2>Prohibited Uses</h2>
-    <p>You agree not to use Plein Air Pal to:
-
-• Upload content that is not original plein air artwork
-• Harass, threaten, or abuse other users
-• Post spam, advertisements, or unrelated commercial content
-• Impersonate any person or entity
-• Violate any applicable law or regulation
-• Attempt to gain unauthorized access to any part of the service
-• Interfere with or disrupt the app or its servers
-• Upload malicious code or content</p>
+  <div class="section" id="content">
+    <h2>Your content</h2>
+    <p>You keep ownership of the paintings, photos and other content you post. By posting content, you give us a non-exclusive, royalty-free, worldwide license to host, store, display and share it in the app so the service can work, and to use your public posts to promote Plein Air Pal, with credit to you where practical. This license ends when you delete the content or your account, except for copies that have already been shared or that we must keep for legal reasons.</p>
+    <p>You confirm that you own or have the right to post your content, and that it does not infringe anyone else's rights. If you believe content in the app infringes your copyright, contact us at <a href="mailto:info@pleinairpal.com">info@pleinairpal.com</a> with the details and we will review it.</p>
   </div>
   <div class="divider"></div>
 
-  <div class="section">
-    <h2>Intellectual Property</h2>
-    <p>All rights, title, and interest in and to Plein Air Pal, including the app design, branding, features, and underlying technology, are owned by Plein Air Pal and its licensors. Nothing in these terms grants you any right to use Plein Air Pal's trademarks, logos, or branding without our prior written consent.</p>
+  <div class="section" id="rules">
+    <h2>Community rules</h2>
+    <p>You agree not to use Plein Air Pal to:</p>
+    <ul>
+      <li>Post artwork that is not your own, or content unrelated to painting.</li>
+      <li>Harass, threaten, bully, stalk or abuse anyone, including by misusing someone's location.</li>
+      <li>Post hateful, violent, sexually explicit or illegal content, or content that exploits or endangers minors.</li>
+      <li>Share another person's private information, such as their address, phone number or location, without their permission.</li>
+      <li>Post spam, scams, fake events, or advertising unrelated to the plein air community.</li>
+      <li>Impersonate any person or organization.</li>
+      <li>Collect data from the app or other users by automated means, or try to access accounts or parts of the service you are not authorized to use.</li>
+      <li>Interfere with or disrupt the app or its servers, or upload malicious code.</li>
+      <li>Break any law that applies to you.</li>
+    </ul>
+    <p>You can report content and block users in the app. We review reports and may remove content, limit features or suspend accounts that break these rules.</p>
   </div>
   <div class="divider"></div>
 
-  <div class="section">
+  <div class="section" id="ip">
+    <h2>Our app and brand</h2>
+    <p>The app, its design, its software and the Plein Air Pal name and logo belong to us or our licensors. You may use the app for your own personal use under these terms, but you may not copy, modify, resell or reverse engineer it, or use our name or logo without our written permission.</p>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section" id="third-parties">
+    <h2>App stores and third parties</h2>
+    <p>The app uses services from other companies, such as maps from Mapbox and payments through Apple and Google. Their own terms also apply when you use those features.</p>
+    <p>If you downloaded the app from the Apple App Store or Google Play, these terms are between you and us, not Apple or Google. Apple and Google are not responsible for the app or its content, or for providing support or maintenance for it. If you downloaded the app from the Apple App Store, Apple and its subsidiaries are third-party beneficiaries of these terms and may enforce them against you.</p>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section" id="disclaimers">
     <h2>Disclaimers</h2>
-    <p>Plein Air Pal is provided on an "as is" and "as available" basis without warranties of any kind, either express or implied. We do not warrant that the app will be uninterrupted, error-free, or free of viruses. We are not responsible for the accuracy of any user-generated content, including event listings, painting locations, or profiles.</p>
+    <p>The app is provided "as is" and "as available". We work to keep it running and accurate, but we do not promise that it will always be available, error free or free of harmful components. Content posted by users, including events, painting locations, live locations and profiles, comes from them, and we do not guarantee that it is accurate or safe. Locations shown in the app may be imprecise.</p>
   </div>
   <div class="divider"></div>
 
-  <div class="section">
-    <h2>Limitation of Liability</h2>
-    <p>To the fullest extent permitted by law, Plein Air Pal and its officers, directors, employees, and agents shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the app, including but not limited to loss of data, loss of profits, personal injury, or property damage. Our total liability to you for any claim arising from use of the app shall not exceed the amount you paid us in the twelve months preceding the claim.</p>
+  <div class="section" id="liability">
+    <h2>Limitation of liability</h2>
+    <p>To the fullest extent the law allows, we are not liable for indirect, incidental, special, consequential or punitive damages, or for loss of data, profits or goodwill, arising from your use of the app, from events or meetings arranged through it, or from the conduct of other users. To the fullest extent the law allows, our total liability for any claim relating to the app is limited to the amount you paid for Plein Air Pal Pro in the twelve months before the claim.</p>
+    <p>Nothing in these terms limits liability that cannot be limited by law, such as liability for death or personal injury caused by negligence, or for fraud. Nothing in these terms affects the rights you have as a consumer under the laws of the country where you live.</p>
   </div>
   <div class="divider"></div>
 
-  <div class="section">
-    <h2>Termination</h2>
-    <p>We reserve the right to suspend or terminate your account at any time, with or without notice, for conduct that we believe violates these Terms of Use or is harmful to other users, us, or third parties. You may delete your account at any time through the app settings.</p>
+  <div class="section" id="ending">
+    <h2>Ending your use of the app</h2>
+    <p>You can stop using the app and delete your account at any time, in the app's settings or by email, as described in our <a href="privacy-policy.html#delete-account">Privacy Policy</a>.</p>
+    <p>We may suspend or close your account, or remove content, if you break these terms, if your use creates risk or harm for other users, us or others, or if the law requires it. Where it is reasonable, we will tell you why.</p>
   </div>
   <div class="divider"></div>
 
-  <div class="section">
-    <h2>Governing Law</h2>
-    <p>These Terms of Use are governed by and construed in accordance with the laws of the United States. Any disputes arising under these terms shall be resolved through binding arbitration in accordance with the rules of the American Arbitration Association.</p>
+  <div class="section" id="changes">
+    <h2>Changes to these terms</h2>
+    <p>We may update these terms from time to time. We will change the date at the top of this page, and for significant changes we will let you know in the app or by email before they take effect. If you keep using the app after the changes take effect, the updated terms apply. If you do not agree, you can stop using the app and delete your account.</p>
   </div>
   <div class="divider"></div>
 
-  <div class="section">
-    <h2>Contact Us</h2>
-    <p>If you have questions about these Terms of Use, please contact us at:
+  <div class="section" id="disputes">
+    <h2>Disputes</h2>
+    <p>If you have a problem with the app, contact us first at <a href="mailto:info@pleinairpal.com">info@pleinairpal.com</a>, and we will try to resolve it informally. If you live in the European Union or the United Kingdom, you can also bring a claim in the courts of the country where you live, and you are protected by its mandatory consumer laws.</p>
+  </div>
+  <div class="divider"></div>
 
-info@pleinairpal.com</p>
+  <div class="section" id="contact">
+    <h2>Contact us</h2>
+    <p>If you have questions about these terms, contact us at <a href="mailto:info@pleinairpal.com">info@pleinairpal.com</a>.</p>
   </div>
 </div>
 
